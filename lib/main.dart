@@ -6,20 +6,20 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => EmojiGame(7),
-      child: const MyApp(),
+      create: (context) => EmojiGameModel(7),
+      child: const MemorizeApp(),
     ),
   );
 }
 
-class EmojiGame extends ChangeNotifier {
+class EmojiGameModel extends ChangeNotifier {
   final emojis = ["✈️", "🚀", "🚘", "🚎", "🚛", "🚐", "⛴", "🏍", "🚁", "🚂"];
   final _deck = <String>[];
   int _pairs = 0;
 
   UnmodifiableListView<String> get deck => UnmodifiableListView(_deck);
 
-  EmojiGame(int numberOfPairs) {
+  EmojiGameModel(int numberOfPairs) {
     _pairs = numberOfPairs > emojis.length ? emojis.length : numberOfPairs;
 
     var shuffledEmojis = emojis;
@@ -34,8 +34,8 @@ class EmojiGame extends ChangeNotifier {
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MemorizeApp extends StatelessWidget {
+  const MemorizeApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -56,7 +56,7 @@ class MainGameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EmojiGame>(
+    return Consumer<EmojiGameModel>(
       builder: (context, game, child) {
         return Scaffold(
           appBar: AppBar(
@@ -70,7 +70,7 @@ class MainGameWidget extends StatelessWidget {
     );
   }
 
-  GridView cardList(EmojiGame game) {
+  GridView cardList(EmojiGameModel game) {
     return GridView.extent(
         maxCrossAxisExtent: 150,
         padding: const EdgeInsets.all(4),
@@ -80,7 +80,7 @@ class MainGameWidget extends StatelessWidget {
         children: _buildGridTileList(game.deck.length, game));
   }
 
-  List<Widget> _buildGridTileList(int count, EmojiGame game) =>
+  List<Widget> _buildGridTileList(int count, EmojiGameModel game) =>
       List.generate(count, (i) => ExposedCard(cardFace: game.deck[i]));
 }
 
