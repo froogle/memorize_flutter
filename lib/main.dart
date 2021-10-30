@@ -59,11 +59,11 @@ class MainGameWidget extends StatelessWidget {
   }
 
   List<Widget> _buildGridTileList(int count, EmojiGameModel game) =>
-      List.generate(count, (i) => ExposedCard(cardFace: game.deck[i]));
+      List.generate(count, (i) => GameCard(cardFace: game.deck[i]));
 }
 
-class ExposedCard extends StatelessWidget {
-  const ExposedCard({
+class GameCard extends StatelessWidget {
+  const GameCard({
     Key? key,
     required this.cardFace,
   }) : super(key: key);
@@ -73,23 +73,25 @@ class ExposedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.red, width: 4),
-        borderRadius: BorderRadius.circular(40),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: const Offset(0, 2))
-        ],
-      ),
-      child: Center(
-          child: Text(
-        cardFace,
-        textScaleFactor: 4,
-      )),
+      decoration: exposedGameCard(),
+      child: Center(child: Text(cardFace, textScaleFactor: 4)),
     );
+  }
+
+  BoxDecoration exposedGameCard() {
+    return BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: Colors.red, width: 4),
+      borderRadius: BorderRadius.circular(40),
+      boxShadow: [cardShadow()],
+    );
+  }
+
+  BoxShadow cardShadow() {
+    return BoxShadow(
+        color: Colors.black.withOpacity(0.2),
+        spreadRadius: 2,
+        blurRadius: 2,
+        offset: const Offset(0, 2));
   }
 }
