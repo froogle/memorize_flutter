@@ -1,14 +1,22 @@
-import 'dart:html';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => EmojiGame(7),
+      child: const MyApp(),
+    ),
+  );
 }
 
-class EmojiGame {
+class EmojiGame extends ChangeNotifier {
   final emojis = ["✈️", "🚀", "🚘", "🚎", "🚛", "🚐", "⛴", "🏍", "🚁", "🚂"];
-  var deck = <String>[];
+  final _deck = <String>[];
+
+  UnmodifiableListView<String> get deck => UnmodifiableListView(_deck);
 
   EmojiGame(int numberOfPairs) {
     final pairCount =
@@ -18,11 +26,11 @@ class EmojiGame {
     shuffledEmojis.shuffle();
 
     for (var i = 0; i < pairCount; i++) {
-      deck.add(shuffledEmojis[i]);
-      deck.add(shuffledEmojis[i]);
+      _deck.add(shuffledEmojis[i]);
+      _deck.add(shuffledEmojis[i]);
     }
 
-    deck.shuffle();
+    _deck.shuffle();
   }
 }
 
