@@ -6,6 +6,26 @@ void main() {
   runApp(const MyApp());
 }
 
+class EmojiGame {
+  final emojis = ["✈️", "🚀", "🚘", "🚎", "🚛", "🚐", "⛴", "🏍", "🚁", "🚂"];
+  var deck = <String>[];
+
+  EmojiGame(int numberOfPairs) {
+    final pairCount =
+        numberOfPairs > emojis.length ? emojis.length : numberOfPairs;
+
+    var shuffledEmojis = emojis;
+    shuffledEmojis.shuffle();
+
+    for (var i = 0; i < pairCount; i++) {
+      deck.add(shuffledEmojis[i]);
+      deck.add(shuffledEmojis[i]);
+    }
+
+    deck.shuffle();
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
