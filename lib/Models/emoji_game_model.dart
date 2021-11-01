@@ -1,24 +1,46 @@
-import 'dart:collection';
-import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
-class EmojiGameModel extends ChangeNotifier {
-  final emojis = ["✈️", "🚀", "🚘", "🚎", "🚛", "🚐", "⛴", "🏍", "🚁", "🚂"];
-  final _deck = <String>[];
-  int _pairs = 0;
+const _uuid = Uuid();
+final emojis = ["✈️", "🚀", "🚘", "🚎", "🚛", "🚐", "⛴", "🏍", "🚁", "🚂"];
 
-  UnmodifiableListView<String> get deck => UnmodifiableListView(_deck);
+final gameProvider =
+    StateNotifierProvider<EmojiGame, List<EmojiCard>>((ref) => EmojiGame());
 
-  EmojiGameModel(int numberOfPairs) {
-    _pairs = numberOfPairs > emojis.length ? emojis.length : numberOfPairs;
+class EmojiGame extends StateNotifier<List<EmojiCard>> {
+  EmojiGame() : super([]) {
+    startNewGame(10);
+  }
 
+  void startNewGame(int pairs) {
+    var counter = pairs > emojis.length ? emojis.length : pairs;
     var shuffledEmojis = emojis;
     shuffledEmojis.shuffle();
 
-    for (var i = 0; i < _pairs; i++) {
-      _deck.add(shuffledEmojis[i]);
-      _deck.add(shuffledEmojis[i]);
+    List<EmojiCard> deck = [];
+    for (var i = 0; i < counter; i++) {
+      deck.add(EmojiCard(id: _uuid.v4(), content: shuffledEmojis[i]));
+      deck.add(EmojiCard(id: _uuid.v4(), content: shuffledEmojis[i]));
     }
 
-    _deck.shuffle();
+    deck.shuffle();
+    state = deck;
   }
+
+  void flipCard(String id) {
+    state = [
+      for (final card in state)
+        if (card.id == id)
+          EmojiCard(id: card.id, content: card.content, faceUp: !card.faceUp)
+        else
+          card,
+    ];
+  }
+}
+
+class EmojiCard {
+  EmojiCard({required this.id, required this.content, this.faceUp = false});
+  final String id;
+  final String content;
+  final bool faceUp;
 }

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'Models/emoji_game_model.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => EmojiGameModel(7),
-      child: const MemorizeApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MemorizeApp()));
 }
 
 class MemorizeApp extends StatelessWidget {
@@ -23,43 +18,42 @@ class MemorizeApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainGameWidget(title: 'Memorize - Flutter Edition'),
+      home: const MainGame(title: 'Memorize - Flutter Edition'),
     );
   }
 }
 
-class MainGameWidget extends StatelessWidget {
-  const MainGameWidget({Key? key, required this.title}) : super(key: key);
+class MainGame extends StatefulWidget {
+  const MainGame({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
+  MainGameState createState() => MainGameState();
+}
+
+class MainGameState extends State<MainGame> {
+  @override
   Widget build(BuildContext context) {
-    return Consumer<EmojiGameModel>(
-      builder: (context, game, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-          ),
-          body: Center(
-            child: cardList(game),
-          ),
-        );
-      },
-    );
+    return Scaffold(
+        appBar: AppBar(),
+        body: Consumer(builder: (ctx, watch, child) {
+          final deck = watch.watch(gameProvider);
+          return Center(child: cardList(deck));
+        }));
   }
 
-  GridView cardList(EmojiGameModel game) {
+  GridView cardList(List<EmojiCard> deck) {
     return GridView.extent(
         maxCrossAxisExtent: 150,
         padding: const EdgeInsets.all(4),
         mainAxisSpacing: 12,
         crossAxisSpacing: 8,
         childAspectRatio: 12 / 16,
-        children: _buildGridTileList(game.deck.length, game));
+        children: _buildGridTileList(deck.length, deck));
   }
 
-  List<Widget> _buildGridTileList(int count, EmojiGameModel game) =>
-      List.generate(count, (i) => GameCard(cardFace: game.deck[i]));
+  List<Widget> _buildGridTileList(int count, List<EmojiCard> deck) =>
+      List.generate(count, (i) => GameCard(cardFace: deck[i].content));
 }
 
 class GameCard extends StatelessWidget {
