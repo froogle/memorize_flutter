@@ -38,28 +38,29 @@ class MainGameState extends State<MainGame> {
         appBar: AppBar(),
         body: Consumer(builder: (ctx, watch, child) {
           final deck = watch.watch(gameProvider);
-          return Center(child: cardList(deck));
+          return Center(child: gridOfPlayingCards(deck));
         }));
   }
 
-  GridView cardList(List<EmojiCard> deck) {
+  GridView gridOfPlayingCards(List<PlayingCard> deck) {
     return GridView.extent(
         maxCrossAxisExtent: 100,
         padding: const EdgeInsets.all(4),
         mainAxisSpacing: 12,
         crossAxisSpacing: 8,
         childAspectRatio: 12 / 16,
-        children: List.generate(deck.length, (i) => GameCard(card: deck[i])));
+        children: List.generate(
+            deck.length, (i) => PlayingCardWidget(card: deck[i])));
   }
 }
 
-class GameCard extends StatelessWidget {
-  const GameCard({
+class PlayingCardWidget extends StatelessWidget {
+  const PlayingCardWidget({
     Key? key,
     required this.card,
   }) : super(key: key);
 
-  final EmojiCard card;
+  final PlayingCard card;
 
   @override
   Widget build(BuildContext context) {

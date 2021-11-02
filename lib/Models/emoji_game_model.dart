@@ -4,11 +4,11 @@ import 'package:uuid/uuid.dart';
 const _uuid = Uuid();
 final emojis = ["✈️", "🚀", "🚘", "🚎", "🚛", "🚐", "⛴", "🏍", "🚁", "🚂"];
 
-final gameProvider =
-    StateNotifierProvider<EmojiGame, List<EmojiCard>>((ref) => EmojiGame());
+final gameProvider = StateNotifierProvider<MemorizeGame, List<PlayingCard>>(
+    (ref) => MemorizeGame());
 
-class EmojiGame extends StateNotifier<List<EmojiCard>> {
-  EmojiGame() : super([]) {
+class MemorizeGame extends StateNotifier<List<PlayingCard>> {
+  MemorizeGame() : super([]) {
     startNewGame(10);
   }
 
@@ -17,29 +17,29 @@ class EmojiGame extends StateNotifier<List<EmojiCard>> {
     var shuffledEmojis = emojis;
     shuffledEmojis.shuffle();
 
-    List<EmojiCard> deck = [];
+    List<PlayingCard> deckOfCards = [];
     for (var i = 0; i < counter; i++) {
-      deck.add(EmojiCard(id: _uuid.v4(), content: shuffledEmojis[i]));
-      deck.add(EmojiCard(id: _uuid.v4(), content: shuffledEmojis[i]));
+      deckOfCards.add(PlayingCard(id: _uuid.v4(), content: shuffledEmojis[i]));
+      deckOfCards.add(PlayingCard(id: _uuid.v4(), content: shuffledEmojis[i]));
     }
 
-    deck.shuffle();
-    state = deck;
+    deckOfCards.shuffle();
+    state = deckOfCards;
   }
 
   void flipCard(String id) {
     state = [
       for (final card in state)
         if (card.id == id)
-          EmojiCard(id: card.id, content: card.content, faceUp: !card.faceUp)
+          PlayingCard(id: card.id, content: card.content, faceUp: !card.faceUp)
         else
           card,
     ];
   }
 }
 
-class EmojiCard {
-  EmojiCard({required this.id, required this.content, this.faceUp = false});
+class PlayingCard {
+  PlayingCard({required this.id, required this.content, this.faceUp = false});
   final String id;
   final String content;
   final bool faceUp;
