@@ -44,7 +44,7 @@ class MainGameState extends State<MainGame> {
 
   GridView cardList(List<EmojiCard> deck) {
     return GridView.extent(
-        maxCrossAxisExtent: 150,
+        maxCrossAxisExtent: 100,
         padding: const EdgeInsets.all(4),
         mainAxisSpacing: 12,
         crossAxisSpacing: 8,
@@ -75,8 +75,8 @@ class GameCard extends StatelessWidget {
   BoxDecoration exposedGameCard() {
     return BoxDecoration(
       color: Colors.white,
-      border: Border.all(color: Colors.red, width: 4),
-      borderRadius: BorderRadius.circular(40),
+      border: Border.all(color: Colors.red, width: 2),
+      borderRadius: BorderRadius.circular(30),
       boxShadow: [cardShadow()],
     );
   }
