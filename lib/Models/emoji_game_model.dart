@@ -29,10 +29,10 @@ class MemorizeGame extends StateNotifier<List<PlayingCard>> {
     state = deckOfCards;
   }
 
-  void flipCard(String id) {
+  void flipCard(PlayingCard cardToFlip) {
     state = [
       for (final card in state)
-        if (card.id == id)
+        if (card.id == cardToFlip.id)
           PlayingCard(
               id: card.id, faceValue: card.faceValue, faceUp: !card.faceUp)
         else

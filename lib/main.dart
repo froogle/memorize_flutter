@@ -68,8 +68,7 @@ class PlayingCardWidget extends StatelessWidget {
           decoration: card.faceUp ? exposedGameCard() : hiddenGameCard(),
           child: TextButton(
             child: Text(card.faceUp ? card.faceValue : "", textScaleFactor: 4),
-            onPressed: () =>
-                watch.read(gameProvider.notifier).flipCard(card.id),
+            onPressed: () => watch.read(gameProvider.notifier).flipCard(card),
           ));
     });
   }
