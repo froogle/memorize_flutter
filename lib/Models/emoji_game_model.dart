@@ -42,7 +42,7 @@ class MemorizeGame extends StateNotifier<List<PlayingCard>> {
 }
 
 class PlayingCard {
-  PlayingCard({required this.id, required this.faceValue, this.faceUp = true});
+  PlayingCard({required this.id, required this.faceValue, this.faceUp = false});
   final String id;
   final String faceValue;
   final bool faceUp;
