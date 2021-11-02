@@ -49,11 +49,9 @@ class MainGameState extends State<MainGame> {
         mainAxisSpacing: 12,
         crossAxisSpacing: 8,
         childAspectRatio: 12 / 16,
-        children: _buildGridTileList(deck.length, deck));
+        children: List.generate(
+            deck.length, (i) => GameCard(cardFace: deck[i].content)));
   }
-
-  List<Widget> _buildGridTileList(int count, List<EmojiCard> deck) =>
-      List.generate(count, (i) => GameCard(cardFace: deck[i].content));
 }
 
 class GameCard extends StatelessWidget {
