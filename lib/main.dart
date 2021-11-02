@@ -49,24 +49,23 @@ class MainGameState extends State<MainGame> {
         mainAxisSpacing: 12,
         crossAxisSpacing: 8,
         childAspectRatio: 12 / 16,
-        children: List.generate(
-            deck.length, (i) => GameCard(cardFace: deck[i].content)));
+        children: List.generate(deck.length, (i) => GameCard(card: deck[i])));
   }
 }
 
 class GameCard extends StatelessWidget {
   const GameCard({
     Key? key,
-    required this.cardFace,
+    required this.card,
   }) : super(key: key);
 
-  final String cardFace;
+  final EmojiCard card;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: exposedGameCard(),
-      child: Center(child: Text(cardFace, textScaleFactor: 4)),
+      child: Center(child: Text(card.content, textScaleFactor: 4)),
     );
   }
 
