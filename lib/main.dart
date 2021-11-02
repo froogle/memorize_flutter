@@ -63,11 +63,15 @@ class PlayingCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: card.faceUp ? exposedGameCard() : hiddenGameCard(),
-        child: Center(
-            child:
-                Text(card.faceUp ? card.faceValue : "", textScaleFactor: 4)));
+    return Consumer(builder: (ctx, watch, child) {
+      return Container(
+          decoration: card.faceUp ? exposedGameCard() : hiddenGameCard(),
+          child: TextButton(
+            child: Text(card.faceUp ? card.faceValue : "", textScaleFactor: 4),
+            onPressed: () =>
+                watch.read(gameProvider.notifier).flipCard(card.id),
+          ));
+    });
   }
 
   BoxDecoration exposedGameCard() {
