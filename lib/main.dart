@@ -37,20 +37,20 @@ class MainGameState extends State<MainGame> {
     return Scaffold(
         appBar: AppBar(),
         body: Consumer(builder: (ctx, watch, child) {
-          final deck = watch.watch(gameProvider);
-          return Center(child: gridOfPlayingCards(deck));
+          final deckOfCards = watch.watch(gameProvider);
+          return Center(child: gridOfPlayingCards(deckOfCards));
         }));
   }
 
-  GridView gridOfPlayingCards(List<PlayingCard> deck) {
+  GridView gridOfPlayingCards(List<PlayingCard> deckOfCards) {
     return GridView.extent(
         maxCrossAxisExtent: 100,
         padding: const EdgeInsets.all(4),
         mainAxisSpacing: 12,
         crossAxisSpacing: 8,
         childAspectRatio: 12 / 16,
-        children: List.generate(
-            deck.length, (i) => PlayingCardWidget(card: deck[i])));
+        children: List.generate(deckOfCards.length,
+            (i) => PlayingCardWidget(card: deckOfCards[i])));
   }
 }
 
@@ -66,7 +66,7 @@ class PlayingCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: exposedGameCard(),
-      child: Center(child: Text(card.content, textScaleFactor: 4)),
+      child: Center(child: Text(card.faceValue, textScaleFactor: 4)),
     );
   }
 

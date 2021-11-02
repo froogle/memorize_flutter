@@ -19,8 +19,10 @@ class MemorizeGame extends StateNotifier<List<PlayingCard>> {
 
     List<PlayingCard> deckOfCards = [];
     for (var i = 0; i < counter; i++) {
-      deckOfCards.add(PlayingCard(id: _uuid.v4(), content: shuffledEmojis[i]));
-      deckOfCards.add(PlayingCard(id: _uuid.v4(), content: shuffledEmojis[i]));
+      deckOfCards
+          .add(PlayingCard(id: _uuid.v4(), faceValue: shuffledEmojis[i]));
+      deckOfCards
+          .add(PlayingCard(id: _uuid.v4(), faceValue: shuffledEmojis[i]));
     }
 
     deckOfCards.shuffle();
@@ -31,7 +33,8 @@ class MemorizeGame extends StateNotifier<List<PlayingCard>> {
     state = [
       for (final card in state)
         if (card.id == id)
-          PlayingCard(id: card.id, content: card.content, faceUp: !card.faceUp)
+          PlayingCard(
+              id: card.id, faceValue: card.faceValue, faceUp: !card.faceUp)
         else
           card,
     ];
@@ -39,8 +42,8 @@ class MemorizeGame extends StateNotifier<List<PlayingCard>> {
 }
 
 class PlayingCard {
-  PlayingCard({required this.id, required this.content, this.faceUp = false});
+  PlayingCard({required this.id, required this.faceValue, this.faceUp = true});
   final String id;
-  final String content;
+  final String faceValue;
   final bool faceUp;
 }
